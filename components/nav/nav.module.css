@@ -1,0 +1,36 @@
+.nav__list {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 30px;
+}
+
+.nav__link {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.75;
+	color: var(--neutral-black-b500);
+
+	transition: color 0.3s ease-in;
+}
+
+.nav__link:hover {color: var(--neutral-black-b900);}
+
+.nav__link--categories {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.nav__link-arrow {fill: var(--neutral-black-b500); transition: fill 0.3s ease-in;}
+.nav__link:hover .nav__link-arrow {fill: var(--neutral-black-b900);}
+
+.nav__link--categories::after {
+	/* content: url("/chevron-down.svg"); */
+	height: 24px;
+	width: 24px;
+	color: inherit;
+}
+
+.nav__link--categories:hover::after {color: var(--neutral-black-b900)}

@@ -1,0 +1,143 @@
+.main {
+    display: flex;
+    gap: 20px;
+}
+
+.main__sideBar {
+	padding: 24px 12px 32px 16px;
+	width: 248px;
+	/* height: 828px; */
+	max-height: fit-content;
+
+
+	display: grid;
+	gap: 40px;
+	align-items: start;
+	align-content: start;
+
+	border: 1px solid var(--neutral-black-b100);
+	border-radius: 6px;
+}
+
+.main__content {
+    flex: 1;
+}
+
+.main__content-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(237, 1fr));
+	justify-items: center;
+	gap: 32px 24px;
+}
+
+/* Стили для контента */
+.main__content-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.main__content-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.no-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 24px;
+  color: #6b7280;
+}
+
+.no-products p {
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.no-products button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.no-products button:hover {
+  background: #2563eb;
+}
+
+/* Стили для примененных фильтров */
+.applied-filters {
+  /* margin-top: 18px; */
+  padding: 8px 4px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.applied-filters__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.clear-all-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s ease;
+}
+
+.clear-all-btn:hover {
+  background: #dc2626;
+}
+
+.applied-filters__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  background: #3b82f6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  gap: 6px;
+}
+
+.remove-filter-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+
+.remove-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+

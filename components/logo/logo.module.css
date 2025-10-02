@@ -1,0 +1,19 @@
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.logo__image {
+	width: 40px;
+	height: 41px;
+}
+
+.logo__text {
+    font-family: var(--second-family);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.04em;
+    text-transform: capitalize;
+    color: var(--neutral-black-b900);
+}

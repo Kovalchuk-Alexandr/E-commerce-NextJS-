@@ -1,0 +1,19 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {margin-top: auto;}
+
+.header {
+    /* max-width: 1460px;
+    margin: 0 auto; */
+    padding: 20px;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #f0f0f0; */
+}

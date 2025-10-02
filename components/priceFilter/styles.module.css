@@ -1,0 +1,318 @@
+/* Стили для фильтра цен */
+.sidebar-price {
+	padding: 4px;
+	background: #ffffff;
+	/* background-color: var(--neutral-white-w200); */
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	}
+
+
+.sidebar-price__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sidebar-price__clear {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  /* text-transform: uppercase; */
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-price__clear:hover {
+  background: #fee2e2;
+  transform: scale(1.05);
+}
+
+/* Значения выбранного диапазона */
+.sidebar-price__values {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.sidebar-price__value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.sidebar-price__separator {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Контейнер слайдера */
+.sidebar-price__slider-container {
+  position: relative;
+  padding: 26px 0 18px;
+  margin-bottom: 8px;
+}
+
+/* Трек слайдера */
+.sidebar-price__slider-track {
+  position: relative;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar-price__slider-track:hover {
+  background: #d1d5db;
+}
+
+/* Активная область между ползунками */
+.sidebar-price__slider-range {
+  position: absolute;
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+/* Ползунки */
+.sidebar-price__slider-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border: 3px solid #3b82f6;
+  border-radius: 50%;
+  cursor: grab;
+  transition: all 0.2s ease;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-price__slider-thumb:hover {
+  width: 24px;
+  height: 24px;
+  border-width: 4px;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.sidebar-price__slider-thumb.dragging {
+  cursor: grabbing;
+  width: 24px;
+  height: 24px;
+  border-width: 4px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  z-index: 3;
+}
+
+.sidebar-price__slider-thumb:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+/* Тултип при наведении */
+.sidebar-price__tooltip {
+  position: absolute;
+  top: -35px;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  animation: tooltipFadeIn 0.2s ease;
+}
+
+.sidebar-price__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1f2937;
+}
+
+/* Активный тултип (при перетаскивании) */
+.sidebar-price__tooltip-active {
+  position: absolute;
+  top: -40px;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 11;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  animation: tooltipBounce 0.3s ease;
+}
+
+.sidebar-price__tooltip-active::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #3b82f6;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes tooltipBounce {
+  0% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Скрытые input для доступности */
+.sidebar-price__input-hidden {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Метки минимума и максимума */
+.sidebar-price__labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.sidebar-price__label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+
+/*
+.sidebar-price__range {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-price__input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-price__input-wrapper:focus-within {
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.sidebar-price__currency {
+  padding-left: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.sidebar-price__input {
+  flex: 1;
+  padding: 10px 12px 10px 4px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  outline: none;
+}
+
+.sidebar-price__input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.sidebar-price__input.error {
+  color: #ef4444;
+}
+
+.sidebar-price__input-wrapper:has(.error) {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.sidebar-price__separator {
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.sidebar-price__error {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border-radius: 4px;
+  color: #ef4444;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+.sidebar-price__summary {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #f0f9ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+}
+
+.sidebar-price__summary-text {
+  color: #1e40af;
+  font-size: 13px;
+  font-weight: 500;
+}
+*/
+

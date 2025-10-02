@@ -1,0 +1,94 @@
+{
+	"products": [
+		{
+			"id": 1,
+			"title": "Классическая Футболка",
+			"image": "/products/01.png",
+			"price": 29.99,
+			"status": "in stock",
+			"category": "Футболки",
+			"color": "blue",
+			"size": "S"
+		},
+		{
+			"id": 2,
+			"title": "Oversized Футболка",
+			"image": "/products/02.png",
+			"price": 35.5,
+			"status": "out of stock",
+			"category": "Футболки",
+			"color": "white",
+			"size": "M"
+		},
+		{
+			"id": 3,
+			"title": "Меланжевая Футболка",
+			"image": "/products/03.png",
+			"price": 25.0,
+			"status": "in stock",
+			"category": "Футболки",
+			"color": "black",
+			"size": "L"
+		},
+		{
+			"id": 4,
+			"title": "Морская Худи",
+			"image": "/products/04.png",
+			"price": 32.99,
+			"status": "in stock",
+			"category": "Худи",
+			"color": "black",
+			"size": "M"
+		},
+		{
+			"id": 5,
+			"title": "Винтажная Кофта",
+			"image": "/products/05.png",
+			"price": 28.95,
+			"status": "out of stock",
+			"category": "Кофты",
+			"color": "black",
+			"size": "XXL"
+		},
+		{
+			"id": 6,
+			"title": "Базовый Темно-Синий Худи",
+			"image": "/products/06.png",
+			"price": 22.99,
+			"status": "in stock",
+			"category": "Худи",
+			"color": "black",
+			"size": "XL"
+		},
+		{
+			"id": 7,
+			"title": "Хлопковая Футболка",
+			"image": "/products/07.png",
+			"price": 19.9,
+			"status": "in stock",
+			"category": "Футболки",
+			"color": "white",
+			"size": "XXL"
+		},
+		{
+			"id": 8,
+			"title": "Дизайнерская Футболка",
+			"image": "/products/08.png",
+			"price": 45.0,
+			"status": "out of stock",
+			"category": "Футболки",
+			"color": "brown",
+			"size": "S"
+		},
+		{
+			"id": 9,
+			"title": "Минималистичная Белая Кофта",
+			"image": "/products/09.png",
+			"price": 24.75,
+			"status": "in stock",
+			"category": "Кофты",
+			"color": "black",
+			"size": "M"
+		}
+	]
+}

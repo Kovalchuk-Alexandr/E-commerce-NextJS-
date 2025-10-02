@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 30px;
+
+	padding-block: 20px;
+}
+
+.header__col {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+    gap: 30px;
+}
+
+.header__col--left {
+	flex-grow: 1;
+	max-width: 640px;
+
+}

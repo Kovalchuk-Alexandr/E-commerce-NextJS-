@@ -34,7 +34,7 @@ const FilterSection = ({
 }: FilterSectionProps) => {
 
 	const setFilterValue = (isChecked: boolean, value: string) => {
-		console.log(`${filterKey} - isChecked: %s, value: %s`, isChecked, value);
+		// console.log(`${filterKey} - isChecked: %s, value: %s`, isChecked, value);
 
 		const currentValues = filter[filterKey] as string[];
 		const newValues = isChecked

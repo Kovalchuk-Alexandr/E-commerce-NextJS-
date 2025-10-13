@@ -1,27 +1,14 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 import styles from "./styles.module.css";
 import Card from "@/components/card/Card";
 import SidebarFilters from "@/components/sidebarCategories/SidebarFiltersUpdated";
 
-import { buildProductSearchParams, fetchProductsClient } from "@/lib/products";
-import { Product } from "@/types/product";
+import { buildProductSearchParams } from "@/lib/products";
 
-// Ф. предовращает многократный рендеринг при частом изменении критерия (допустим range-slider)
-function useDebounced<T>(value: T, delay: number = 300) {
-	const [v, setV] = useState(value);
-
-	useEffect(() => {
-		const handler = setTimeout(() => setV(value), delay);
-		return () => clearTimeout(handler);
-	}, [value, delay]);
-
-	return v;
-}
-
-const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
+const ProductsPage = ({ products }: { products: any[] }) => {
 	const [filter, setFilter] = useState({
 		category: [] as string[],
 		color: [] as string[],
@@ -29,51 +16,107 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 		price: [null, null] as [number | null, number | null],
 	});
 
-	const [products, setProducts] = useState<Product[]>(initialProducts);
+	// Получаем базовый URl
+	const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+	const baseUrl = `${apiBaseUrl}/products`;
+
+	const [product, setProducts] = useState([]);
+	const [url, setUrl] = useState(baseUrl);
 
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const debounceFilter = useDebounced(filter, 300);
+	// console.log("Router: ", router);
+	// console.log("Pathname: ", pathname);
 
-	// Обновление URL в браузере при изменении фильтров
-	const buildUrl = useCallback(
-		(filters: typeof filter) => {
-			const params = buildProductSearchParams(filters);
-			const queryString = params.toString();
+	// Функция для построения URL на основе фильтров
+	const buildUrl = (filters: typeof filter) => {
+		const params = new URLSearchParams();
 
-			console.log("Querystring: ", queryString);
+		// Добавляем фильтры категорий
+		if (filters.category.length > 0) {
+			// filters.category.forEach((cat) =>
+			// 	params.append("category_like", cat)
+			// );
+			let sep = "|";
+			params.append("category_like", filters.category.join(sep));
+		}
 
-			// Формируем полный путь
-			const fullPath = queryString
-				? `${pathname}?${queryString}`
-				: pathname;
+		// Добавляем фильтры цветов
+		if (filters.color.length > 0) {
+			filters.color.forEach((color) =>
+				params.append("color_like", color)
+			);
+		}
 
-			// Обновляем URL в браузере
-			router.replace(fullPath);
+		// Добавляем фильтры размеров
+		if (filters.size.length > 0) {
+			filters.size.forEach((size) => params.append("size_like", size));
+		}
 
-			return fullPath;
-		},
-		[pathname, router]
-	);
+		// Добавляем фильтры цены
+		if (filters.price[0] !== null) {
+			params.append("price_gte", filters.price[0].toString());
+		}
+		if (filters.price[1] !== null) {
+			params.append("price_lte", filters.price[1].toString());
+		}
+
+		const queryString = params.toString();
+		console.log("Querystring: ", queryString);
+
+		// return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+		return queryString ? `${pathname}?${queryString}` : pathname;
+	};
+
+	// Разбор параметров из URL для отладки
+	const parseUrlParams = (url: string) => {
+		const urlObj = new URL(url);
+		const params = Object.fromEntries(urlObj.searchParams.entries());
+		console.log("Parsed params:", params);
+
+		// Для параметров с одинаковыми именами
+		const allParams: { [key: string]: string[] } = {};
+		urlObj.searchParams.forEach((value, key) => {
+			if (!allParams[key]) allParams[key] = [];
+			allParams[key].push(value);
+		});
+		console.log("All params (including duplicates):", allParams);
+	};
 
 	// Обновляем URL при изменении фильтров
 	useEffect(() => {
 		console.log("=== FILTER CHANGE DEBUG ===");
 		console.log("Current filter state:", filter);
 
-		const newUrl = buildUrl(filter);
+		// const newUrl = buildUrl(filter);
+		const newUrl = buildProductSearchParams(filter);
+		setUrl(newUrl);
+
+		// router.replace(`${pathname}?${newUrl}`);
+		router.replace(`${newUrl}`);
 
 		console.log("Generated URL:", newUrl);
+		// parseUrlParams(newUrl);
 		console.log("=== END DEBUG ===");
-	}, [filter, buildUrl]);
+	}, [filter]);
 
-	// Запрос продуктов с debounce
-	useEffect(() => {
-		fetchProductsClient(debounceFilter).then((productsData) => {
-			setProducts(productsData);
-		});
-	}, [debounceFilter]);
+	// Запрос продуктов при изменении URL
+	// useEffect(() => {
+	// 	const getProducts = async () => {
+	// 		try {
+	// 			console.log("Fetching from:", url);
+	// 			const response = await fetch(url);
+	// 			const productsData = await response.json();
+	// 			setProducts(productsData);
+	// 			console.log("Products loaded:", productsData);
+	// 		} catch (error) {
+	// 			console.error("Error fetching products:", error);
+	// 		}
+	// 	};
+
+	// 	getProducts();
+	// }, [url]);
 
 	// Функция для очистки всех фильтров
 	const clearAllFilters = () => {

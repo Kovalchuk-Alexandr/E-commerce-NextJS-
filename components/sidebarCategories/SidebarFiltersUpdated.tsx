@@ -141,8 +141,8 @@ const SidebarFilters = ({ filter, setFilter }: SidebarFiltersProps) => {
 				title="Price"
 				currency="$" // или "₴", "€", "£"
 				minPrice={0} // минимальная цена
-				maxPrice={1000} // максимальная цена
-				step={5} // шаг изменения
+				maxPrice={100} // максимальная цена
+				step={0.01} // шаг изменения
 			/>
 		</div>
 	);

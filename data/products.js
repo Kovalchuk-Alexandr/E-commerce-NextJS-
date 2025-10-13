@@ -7,6 +7,7 @@ const products = [
 		status: "in stock",
 		category: "Футболки",
 		color: "blue",
+		size: "XL",
 	},
 	{
 		id: 2,
@@ -16,6 +17,7 @@ const products = [
 		status: "out of stock",
 		category: "Футболки",
 		color: "white",
+		size: "L",
 	},
 	{
 		id: 3,
@@ -25,6 +27,7 @@ const products = [
 		status: "in stock",
 		category: "Футболки",
 		color: "black",
+		size: "M",
 	},
 	{
 		id: 4,
@@ -34,6 +37,7 @@ const products = [
 		status: "in stock",
 		category: "Худи",
 		color: "black",
+		size: "XS",
 	},
 	{
 		id: 5,
@@ -43,6 +47,7 @@ const products = [
 		status: "out of stock",
 		category: "Кофта",
 		color: "black",
+		size: "S",
 	},
 	{
 		id: 6,
@@ -52,6 +57,7 @@ const products = [
 		status: "in stock",
 		category: "Худи",
 		color: "black",
+		size: "M",
 	},
 	{
 		id: 7,
@@ -61,6 +67,7 @@ const products = [
 		status: "in stock",
 		category: "Футболки",
 		color: "white",
+		size: "L",
 	},
 	{
 		id: 8,
@@ -70,6 +77,7 @@ const products = [
 		status: "out of stock",
 		category: "Футболки",
 		color: "brown",
+		size: "XL",
 	},
 	{
 		id: 9,
@@ -79,6 +87,7 @@ const products = [
 		status: "in stock",
 		category: "Кофта",
 		color: "black",
+		size: "XS",
 	},
 ];
 

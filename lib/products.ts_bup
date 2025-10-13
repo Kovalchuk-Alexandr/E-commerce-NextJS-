@@ -25,26 +25,30 @@ export async function fetchProductsServer() {
 }
 
 export async function fetchProductsClient(
-	filter: FilterState
+	filter: FilterState,
+	params: string
 ): Promise<Product[]> {
 	// Получаем базовый URl: "http://localhost:3050/products"
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 	let url = `${apiBaseUrl}/products`;
 
-	const params = buildProductSearchParams(filter).toString();
-	
-	// Добавляем параметры только если они есть
-	if (params) {
-		url += `?${params}`;
-	}
+	const param = buildProductSearchParams(filter).toString();
+	url += `/${param}`;
 
-	console.log("Fetching Client from:", url);
+	console.log("URL: ", url);
 	console.log("Params: ", params);
+	console.log("Param: ", param);
 
+	// try {
+	console.log("Fetching Client from:", url);
 	const response = await fetch(url);
 	const productsData = await response.json();
+	// setProducts(productsData);
 	console.log("Products Client loaded:", productsData);
 	return productsData;
+	// } catch (error) {
+	// 	console.error("Error fetching Client products:", error);
+	// }
 }
 
 // Функция для построения URL на основе фильтров

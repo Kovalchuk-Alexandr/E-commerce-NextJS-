@@ -29,14 +29,22 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 		price: [null, null] as [number | null, number | null],
 	});
 
+	// Получаем базовый URl
+	const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+	const baseUrl = `${apiBaseUrl}/products`;
+
 	const [products, setProducts] = useState<Product[]>(initialProducts);
+	const [url, setUrl] = useState(baseUrl);
 
 	const router = useRouter();
 	const pathname = usePathname();
 
+	// console.log("Router: ", router);
+	// console.log("Pathname: ", pathname);
+
 	const debounceFilter = useDebounced(filter, 300);
 
-	// Обновление URL в браузере при изменении фильтров
+	// Получение URL
 	const buildUrl = useCallback(
 		(filters: typeof filter) => {
 			const params = buildProductSearchParams(filters);
@@ -52,10 +60,34 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 			// Обновляем URL в браузере
 			router.replace(fullPath);
 
-			return fullPath;
+			return fullPath; // если нужно возвращать
 		},
-		[pathname, router]
+		[pathname, router, filter] // добавил filter в зависимости
 	);
+
+	const updateUrl = useCallback(() => {
+		const params = buildProductSearchParams(filter);
+		const queryString = params.toString();
+		const fullPath = queryString ? `${pathname}?${queryString}` : pathname;
+
+		console.log("Updating URL to:", fullPath);
+		router.replace(fullPath);
+	}, [pathname, router, filter]);
+
+	// Разбор параметров из URL для отладки
+	const parseUrlParams = (url: string) => {
+		const urlObj = new URL(url);
+		const params = Object.fromEntries(urlObj.searchParams.entries());
+		console.log("Parsed params:", params);
+
+		// Для параметров с одинаковыми именами
+		const allParams: { [key: string]: string[] } = {};
+		urlObj.searchParams.forEach((value, key) => {
+			if (!allParams[key]) allParams[key] = [];
+			allParams[key].push(value);
+		});
+		console.log("All params (including duplicates):", allParams);
+	};
 
 	// Обновляем URL при изменении фильтров
 	useEffect(() => {
@@ -63,17 +95,37 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 		console.log("Current filter state:", filter);
 
 		const newUrl = buildUrl(filter);
+		setUrl(newUrl);
+
+		updateUrl();
 
 		console.log("Generated URL:", newUrl);
+		// parseUrlParams(newUrl);
 		console.log("=== END DEBUG ===");
-	}, [filter, buildUrl]);
+	}, [filter]);
 
-	// Запрос продуктов с debounce
 	useEffect(() => {
-		fetchProductsClient(debounceFilter).then((productsData) => {
+		fetchProductsClient(debounceFilter, url).then((productsData) => {
 			setProducts(productsData);
 		});
-	}, [debounceFilter]);
+	}, [debounceFilter, buildUrl]);
+
+	// Запрос продуктов при изменении URL
+	// useEffect(() => {
+	// 	const getProducts = async () => {
+	// 		try {
+	// 			console.log("Fetching from:", url);
+	// 			const response = await fetch(url);
+	// 			const productsData = await response.json();
+	// 			setProducts(productsData);
+	// 			console.log("Products loaded:", productsData);
+	// 		} catch (error) {
+	// 			console.error("Error fetching products:", error);
+	// 		}
+	// 	};
+
+	// 	getProducts();
+	// }, [url]);
 
 	// Функция для очистки всех фильтров
 	const clearAllFilters = () => {

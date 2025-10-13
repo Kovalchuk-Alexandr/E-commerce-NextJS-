@@ -17,7 +17,7 @@ export default async function Home() {
 		<div className={`${styles["main-page"]} container`}>
 			<Header />
 
-			<ProductsPageUpdated initialProducts={products} />
+			<ProductsPageUpdated products={products} />
 			{/* <ProductsPage products={products} /> */}
 
 			<footer className={styles["footer"]}>

@@ -11,27 +11,13 @@ export function parsFiltersFromSearchParamsObject(searchParams?: {
 	);
 
 	const getArray = (value: string | string[] | undefined): string[] => {
-		// Если получили одиночное значение
+		// Если получили одиночное значение - оборачиваем в массив
 		if (typeof value === "string" || typeof value === "number") {
-			const strValue = value.toString();
-			// Если строка содержит разделитель |, разбиваем её
-			if (strValue.includes("|")) {
-				return strValue.split("|").filter((v) => v.trim() !== "");
-			}
-			return [strValue];
+			return [value.toString()];
 		}
 		// Если получили массив, то его и возвращаем
 		if (Array.isArray(value)) {
-			// Обрабатываем каждый элемент массива на случай, если там есть разделители
-			return value.flatMap((v) => {
-				const strValue = v.toString();
-				if (strValue.includes("|")) {
-					return strValue
-						.split("|")
-						.filter((item) => item.trim() !== "");
-				}
-				return [strValue];
-			});
+			return value;
 		}
 		// Если не строка, не число, и не массив, возвращаем пустой массив
 		return [];
@@ -42,14 +28,14 @@ export function parsFiltersFromSearchParamsObject(searchParams?: {
 			? Number(searchParams?.["price_gte"])
 			: Array.isArray(searchParams?.["price_gte"])
 			? Number(searchParams?.["price_gte"][0])
-			: null;
+			: 0;
 
 	const priceMax =
 		typeof searchParams?.["price_lte"] === "string"
 			? Number(searchParams?.["price_lte"])
 			: Array.isArray(searchParams?.["price_lte"])
 			? Number(searchParams?.["price_lte"][0])
-			: null;
+			: 100;
 
 	const filters: ProductFilters = {
 		category: getArray(searchParams?.["category_like"]),

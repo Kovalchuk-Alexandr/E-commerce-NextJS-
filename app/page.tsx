@@ -3,21 +3,38 @@ import styles from "@/app/page.module.css";
 import Header from "@/components/header/header";
 import ProductsPageUpdated from "@/components/products/ProductsPageUpdated";
 import ProductsPage from "@/components/products/ProductsPage";
-import { fetchProductsServer } from "@/lib/products";
-import { Product } from "@/types/product";
+import {
+	fetchProductsClient,
+	fetchProductsServer,
+	parsFiltersFromSearchParamsObject,
+} from "@/lib/products";
+import { Product, ProductFilters } from "@/types/product";
 
 // import products from "@/data/products" // заменили на json-сервер;
 
-export default async function Home() {
-	const products = await fetchProductsServer();
+export default async function Home({
+	searchParams,
+}: {
+	searchParams?: { [key: string]: string | string[] | undefined };
+}) {
 	// console.log("=== PRODUCTS ===");
 	// console.log(products);
+	const params = await searchParams;
+	console.log("Serch Params: ", params);
+	// console.log("Serch Params color: ", params?.["color"]);
+	const filters = parsFiltersFromSearchParamsObject(params);
+
+	// const products = await fetchProductsServer(filters);
+	const products = await fetchProductsServer(filters);
 
 	return (
 		<div className={`${styles["main-page"]} container`}>
 			<Header />
 
-			<ProductsPageUpdated initialProducts={products} />
+			<ProductsPageUpdated
+				initialProducts={products}
+				initialFilters={filters}
+			/>
 			{/* <ProductsPage products={products} /> */}
 
 			<footer className={styles["footer"]}>

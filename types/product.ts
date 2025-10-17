@@ -8,3 +8,10 @@ export interface Product {
 	color: string;
 	size: string;
 };
+
+export interface ProductFilters {
+	category: string[];
+	color: string[];
+	size: string[];
+	price: [number | null, number | null];
+};

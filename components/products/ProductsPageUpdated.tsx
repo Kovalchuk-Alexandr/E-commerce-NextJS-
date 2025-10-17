@@ -7,7 +7,7 @@ import Card from "@/components/card/Card";
 import SidebarFilters from "@/components/sidebarCategories/SidebarFiltersUpdated";
 
 import { buildProductSearchParams, fetchProductsClient } from "@/lib/products";
-import { Product } from "@/types/product";
+import { Product, ProductFilters } from "@/types/product";
 
 // Ф. предовращает многократный рендеринг при частом изменении критерия (допустим range-slider)
 function useDebounced<T>(value: T, delay: number = 300) {
@@ -21,14 +21,24 @@ function useDebounced<T>(value: T, delay: number = 300) {
 	return v;
 }
 
-const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
-	const [filter, setFilter] = useState({
-		category: [] as string[],
-		color: [] as string[],
-		size: [] as string[],
-		price: [null, null] as [number | null, number | null],
-	});
+const ProductsPage = ({
+	initialProducts,
+	initialFilters,
+}: {
+	initialProducts: Product[];
+	initialFilters: ProductFilters;
+}) => {
+	/* Состояние фильтров */
+	const [filter, setFilter] = useState<ProductFilters>(initialFilters);
 
+	// const [filter, setFilter] = useState({
+	// 	category: [] as string[],
+	// 	color: [] as string[],
+	// 	size: [] as string[],
+	// 	price: [null, null] as [number | null, number | null],
+	// });
+
+	/* Состояние товаров */
 	const [products, setProducts] = useState<Product[]>(initialProducts);
 
 	const router = useRouter();
@@ -42,7 +52,7 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 			const params = buildProductSearchParams(filters);
 			const queryString = params.toString();
 
-			console.log("Querystring: ", queryString);
+			// console.log("Querystring: ", queryString);
 
 			// Формируем полный путь
 			const fullPath = queryString
@@ -59,13 +69,13 @@ const ProductsPage = ({ initialProducts }: { initialProducts: Product[] }) => {
 
 	// Обновляем URL при изменении фильтров
 	useEffect(() => {
-		console.log("=== FILTER CHANGE DEBUG ===");
-		console.log("Current filter state:", filter);
+		// console.log("=== FILTER CHANGE DEBUG ===");
+		// console.log("Current filter state:", filter);
 
 		const newUrl = buildUrl(filter);
 
-		console.log("Generated URL:", newUrl);
-		console.log("=== END DEBUG ===");
+		// console.log("Generated URL:", newUrl);
+		// console.log("=== END DEBUG ===");
 	}, [filter, buildUrl]);
 
 	// Запрос продуктов с debounce

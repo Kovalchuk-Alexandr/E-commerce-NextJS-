@@ -4,6 +4,7 @@ import Header from "@/components/header/header";
 import ProductsPageUpdated from "@/components/products/ProductsPageUpdated";
 // import ProductsPage from "@/components/products/ProductsPage";
 import {
+	fetchProducts,
 	fetchProductsClient,
 	fetchProductsServer,
 	parsFiltersFromSearchParamsObject,
@@ -12,7 +13,13 @@ import { Product, ProductFilters } from "@/types/product";
 
 // import products from "@/data/products" // заменили на json-сервер;
 
-export async function generateStaticParams() {}
+export async function generateStaticParams() {
+	const products = await fetchProducts();
+
+	return products.map((product) => ({
+		product: product.id,
+	}));
+}
 
 export default async function Home({
 	searchParams,

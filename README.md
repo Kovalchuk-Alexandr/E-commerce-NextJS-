@@ -88,8 +88,7 @@ npm run dev:all
 
 - `GET /products` - получить все товары
 - `GET /products?category=Футболки` - фильтр по категории
-- `GET /products?category=Футболки,Худи` - фильтр по нескольким категориям
-- `GET /products?category_like=Футболки | Худи` - фильтр по нескольким категориям
+- `GET /products?category=Футболки|Худи` - фильтр по нескольким категориям
 
 ### Примеры запросов
 
@@ -101,7 +100,7 @@ curl http://localhost:3050/products
 curl "http://localhost:3050/products?category=Футболки"
 
 # Футболки и худи
-curl "http://localhost:3050/products?category=Футболки,Худи"
+curl "http://localhost:3050/products?category=Футболки|Худи"
 ```
 
 ## Структура проекта

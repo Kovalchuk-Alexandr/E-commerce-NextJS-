@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useRef } from "react";
 import styles from "./styles.module.css";
 
 interface FilterState {
@@ -17,11 +17,11 @@ interface FilterOption {
 
 interface FilterSectionProps {
 	title: string;
-	filterKey: keyof Omit<FilterState, 'price'>; // исключаем price, так как он особенный
+	filterKey: keyof Omit<FilterState, "price">;
 	options: FilterOption[];
 	filter: FilterState;
 	setFilter: Dispatch<SetStateAction<FilterState>>;
-	type?: 'checkbox' | 'color'; // тип отображения
+	type?: "checkbox" | "color"; // тип отображения
 }
 
 const FilterSection = ({
@@ -30,12 +30,13 @@ const FilterSection = ({
 	options,
 	filter,
 	setFilter,
-	type = 'checkbox'
+	type = "checkbox",
 }: FilterSectionProps) => {
+	// Храним значения, которые только что были изменены
+	const [justChanged, setJustChanged] = useState<Set<string>>(new Set());
+	const timeoutRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
 	const setFilterValue = (isChecked: boolean, value: string) => {
-		// console.log(`${filterKey} - isChecked: %s, value: %s`, isChecked, value);
-
 		const currentValues = filter[filterKey] as string[];
 		const newValues = isChecked
 			? [...currentValues, value]
@@ -45,12 +46,32 @@ const FilterSection = ({
 			...filter,
 			[filterKey]: newValues,
 		});
+
+		// Добавляем значение в список "только что изменённых"
+		setJustChanged((prev) => new Set(prev).add(value));
+
+		// Очищаем предыдущий таймаут для этого значения
+		if (timeoutRef.current[value]) {
+			clearTimeout(timeoutRef.current[value]);
+		}
+
+		// Убираем из списка через время (длительность анимации)
+		timeoutRef.current[value] = setTimeout(() => {
+			setJustChanged((prev) => {
+				const newSet = new Set(prev);
+				newSet.delete(value);
+				return newSet;
+			});
+		}, 600); // Длительность анимации bounce
 	};
 
 	const FilterItem = ({ option }: { option: FilterOption }) => {
-		const isChecked = (filter[filterKey] as string[]).includes(option.value);
+		const isChecked = (filter[filterKey] as string[]).includes(
+			option.value
+		);
+		const shouldAnimate = justChanged.has(option.value) && isChecked;
 
-		if (type === 'color') {
+		if (type === "color") {
 			return (
 				<li className={styles["sidebar-colors__item"]}>
 					<label className={styles["sidebar-colors__label"]}>
@@ -69,14 +90,13 @@ const FilterSection = ({
 								isChecked ? styles["selected"] : ""
 							}`}
 							style={
-								option.value == "white"
+								option.value === "white"
 									? {
 											backgroundColor: option.colorCode,
 											border: "1px solid #b6b7bc",
 									  }
 									: { backgroundColor: option.colorCode }
 							}
-							// style={{ backgroundColor: option.colorCode }}
 							title={option.name}
 						></span>
 					</label>
@@ -90,7 +110,8 @@ const FilterSection = ({
 				<label className={styles[`sidebar-${filterKey}__label`]}>
 					<input
 						type="checkbox"
-						className={`${styles[`sidebar-${filterKey}__input`]} ${styles["bounce-animation"]}`}
+						className={`${styles[`sidebar-${filterKey}__input`]}
+							${shouldAnimate ? styles["bounce-animation"] : ""}`}
 						name={filterKey}
 						value={option.value}
 						checked={isChecked}

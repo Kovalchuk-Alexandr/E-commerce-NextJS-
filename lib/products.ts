@@ -4,12 +4,6 @@ import { Product, ProductFilters } from "@/types/product";
 export function parsFiltersFromSearchParamsObject(searchParams?: {
 	[key: string]: string | string[] | undefined;
 }): ProductFilters {
-	console.log("Search Params in filters: ", searchParams);
-	console.log(
-		"Search Params Category in filters: ",
-		searchParams?.["color_like"]
-	);
-
 	const getArray = (value: string | string[] | undefined): string[] => {
 		// Если получили одиночное значение
 		if (typeof value === "string" || typeof value === "number") {
@@ -58,7 +52,7 @@ export function parsFiltersFromSearchParamsObject(searchParams?: {
 		price: [priceMin, priceMax],
 	};
 
-	console.log("Parsed filters: ", filters);
+	// console.log("Parsed filters: ", filters);
 
 	return filters;
 }
@@ -92,7 +86,7 @@ export async function fetchProductsServer(
 
 	const response = await fetch(url);
 	const productsData = await response.json();
-	console.log("Products loaded:", productsData);
+	// console.log("Products loaded:", productsData);
 	return productsData;
 }
 
@@ -110,12 +104,9 @@ export async function fetchProductsClient(
 		url += `?${params}`;
 	}
 
-	// console.log("Fetching Client from:", url);
-	// console.log("Params: ", params);
-
 	const response = await fetch(url);
 	const productsData = await response.json();
-	console.log("Products Client loaded:", productsData);
+	// console.log("Products Client loaded:", productsData);
 	return productsData;
 }
 

@@ -1,4 +1,4 @@
-import styles from "@/app/page.module.css";
+import styles from "@/app/[products]/page.module.css";
 
 import Header from "@/components/header/header";
 import ProductsPageUpdated from "@/components/products/ProductsPageUpdated";

@@ -16,7 +16,7 @@ import { Product, ProductFilters } from "@/types/product";
 export async function generateStaticParams() {
 	const products = await fetchProducts();
 
-	return products.map((product) => ({
+	return products.map((product: Product) => ({
 		product: product.id,
 	}));
 }
